@@ -1,9 +1,9 @@
 from discord.ext import commands
 import discord
-from mongoengine import MongoEngine
-from .models import Task
+from models import Task
+from db_setup import db
 
-class Task(commands.Cog):
+class TaskManager(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
     
@@ -25,7 +25,7 @@ class Task(commands.Cog):
     
     @commands.command(name='delete', help='deletes a task from the todo list!')
     async def delete_task(self, ctx, arg1):
-        db.tasks.deleteMany( { id=arg1 } )
+        db.tasks.deleteMany( { id: arg1 } )
         await ctx.channel.send("Deleted task from todo list!")
         
         

@@ -4,15 +4,13 @@ import os
 import discord
 from dotenv import load_dotenv
 from discord.ext import commands
-from mongoengine import MongoEngine
-from app import app, mongo
-
+from task_cog import TaskManager
+from db_setup import db
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
-MONGODB_HOST = "mongodb://localhost:27017/discord_project_manager"
-db = MongoEngine()
+
 
 # prefix is !
 bot = commands.Bot(command_prefix='!')
