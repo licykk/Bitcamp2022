@@ -1,0 +1,6 @@
+mongoengine
+discord
+wheel
+dotenv
+os
+pymongo
