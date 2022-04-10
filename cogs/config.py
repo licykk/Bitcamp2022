@@ -16,7 +16,7 @@ class Config(commands.Cog):
         print(f"{self.__class__.__name__} Cog has been loaded\n-----")
 
     @commands.command(
-        name='reload', description="Reload all/one of the bots cogs!"
+        name='r', description="Reload all/one of the bots cogs!"
     )
     @commands.is_owner()
     async def reload(self, ctx, cog=None):
@@ -79,7 +79,8 @@ class Config(commands.Cog):
                             value=desired_trace,
                             inline=False
                         )
-                await ctx.send(embed=embed)
+                await ctx.send(embed=embed, delete_after=2)
+                await ctx.message.delete(delay=2)
 
 def setup(bot):
     bot.add_cog(Config(bot))
