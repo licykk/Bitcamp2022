@@ -18,7 +18,7 @@ class MeetingNotesManager(commands.Cog):
     
     @commands.Cog.listener()
     async def on_voice_state_update(self, member, before, after):
-        if before.channel is None and after.channel is not None and len(after.channel.members) == 1:
+        if before.channel is None and after.channel is not None and len(after.channel.members) == 1 and after.channel.name != "General":
             
             now = datetime.now()
             year = '{:02d}'.format(now.year)
@@ -29,7 +29,8 @@ class MeetingNotesManager(commands.Cog):
             overall_date = '{}-{}-{}-{}-{}'.format(year, month, day, hour, minute)
             
             name = str(after.channel.name) +"-"+ overall_date +"-meeting"
-            c = await member.guild.create_text_channel(name)
+            cat = discord.utils.get(member.guild.channels, name=after.channel.name, type=discord.ChannelType.text).category
+            c = await cat.create_text_channel(name)
             await c.send(f"Created channel {name}")
             vc = after.channel
             self.die.start(c, vc, member.guild)
@@ -37,22 +38,13 @@ class MeetingNotesManager(commands.Cog):
     
     @tasks.loop(seconds=5.0)
     async def die(self, curr_channel, vc, guild):
-        print("owo")
         if len(vc.members) == 0: 
             ### transcribe text channel ###
             txtfilename = curr_channel.name
             
-            print("more owo")
-            
             project_name = vc.name
             
-            print(project_name)
-            print(txtfilename)
-            
             project_channel = discord.utils.get(guild.channels, name=project_name, type=discord.ChannelType.text) 
-            
-            print('test')
-            print(project_channel.name)
             
             # Initialize notes file add file name to notes file if it does not exist
             #if txtfile not in manager[project_name].notes:

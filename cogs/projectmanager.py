@@ -1,4 +1,5 @@
 from discord.ext import commands
+from models import *
 
 class ProjectManager(commands.Cog):
     def __init__(self, bot):
@@ -10,6 +11,8 @@ class ProjectManager(commands.Cog):
         cat = await guild.create_category(proj_name, position=0)
         c = await cat.create_text_channel(proj_name)
         vc = await cat.create_voice_channel(proj_name)
+
+        manager[proj_name] = Project(proj_name)
 
 
 def setup(bot):
