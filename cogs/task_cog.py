@@ -44,5 +44,6 @@ class TaskManager(commands.Cog):
         print(channel_tasks)
         await ctx.channel.send('\n'.join(channel_tasks))
         
-
+def setup(bot):
+    return bot.add_cog(TaskManager(bot))
 

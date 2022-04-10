@@ -30,5 +30,6 @@ class FileManager(commands.Cog):
         print(channel_files)
         await ctx.channel.send('\n'.join(channel_files))
 
-
+def setup(bot):
+    return bot.add_cog(FileManager(bot))
 
