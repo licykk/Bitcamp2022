@@ -4,10 +4,8 @@ import os
 import discord
 from dotenv import load_dotenv
 from discord.ext import commands
-from task_cog import TaskManager
-from filemanager_cog import FileManager
-# import meetingnotes_cog import MeetingNotes
-# from db_setup import db
+from cogs.task_cog import TaskManager
+from cogs.filemanager_cog import FileManager
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -29,10 +27,13 @@ async def send_flushed(ctx):
     response = ":flushed:"
     await ctx.channel.send(response)
 
-bot.add_cog(TaskManager(bot))
-bot.add_cog(FileManager(bot))
-# bot.add_cog(MeetingNotes(bot))
 
+if __name__ == "__main__":
+    # When running this file, if it is the 'main' file
+    # I.E its not being imported from another python file run this
+    for file in os.listdir("cogs"):
+        if file.endswith(".py") and not file.startswith("_"):
+            print(file)
+            bot.load_extension(f"cogs.{file[:-3]}")
 
-
-bot.run(TOKEN)
+    bot.run(TOKEN)

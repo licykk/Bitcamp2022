@@ -84,5 +84,6 @@ class TaskManager(commands.Cog):
     #     await ctx.channel.send(embed=embed)
 
         
-
+def setup(bot):
+    return bot.add_cog(TaskManager(bot))
 

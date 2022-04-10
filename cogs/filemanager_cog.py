@@ -10,6 +10,15 @@ class FileManager(commands.Cog):
     
     @commands.command(name='store', help='store files')
     async def store_file(self, ctx, *argv):
+        new_task = Task(args[0], args[1])
+        
+        
+        self.name = name
+        self.priority = len(manager[ctx.message.channel.name].files)
+        self.assignment = assignment
+        self.due_date = due_date
+        self.status = status
+
         
         self.num_files += 1
         
@@ -60,5 +69,6 @@ class FileManager(commands.Cog):
 
 #         await ctx.channel.send(embed=embed)
 
-
+def setup(bot):
+    return bot.add_cog(FileManager(bot))
 
