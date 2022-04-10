@@ -15,20 +15,19 @@ class FileManager(commands.Cog):
             writer.writerow([ctx.message.channel.name, self.num_files] + list(argv))   
         
         await ctx.channel.send("Stored file!")
-        
+    
         
     @commands.command(name='view', help='view all stored files!')
     async def view_file(self, ctx):
-        channel_files = []
-        
+        embed=discord.Embed(title="FILES", url="", description="", color=0xFF5733)
+
         with open('csv_files/files.csv', 'r') as f:
             for row in csv.reader(f):
                 print(row)
                 if row[0] == ctx.message.channel.name:
-                    channel_files.append("Name:" +row[2]+ "~~~~~" + "URL:" +row[3])
+                    embed.add_field(name=row[2], value=row[3], inline=False)
 
-        print(channel_files)
-        await ctx.channel.send('\n'.join(channel_files))
+        await ctx.channel.send(embed=embed)
 
 
 

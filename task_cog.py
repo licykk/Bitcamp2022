@@ -21,28 +21,28 @@ class TaskManager(commands.Cog):
     
     @commands.command(name='delete', help='deletes a task from the todo list!')
     async def delete_task(self, ctx, arg1):
-        with open('csv_files/files.csv', 'r') as f:
+        with open('csv_files/tasks.csv', 'r+') as f:
             for row in csv.reader(f):
-                if row[0] == ctx.message.channel.name and row[1] == arg1:
+                if row[0] == ctx.message.channel.name and row[1] != arg1:
+                    print(row)
                     row[0] = "XXX" #deleting is too expensive!
                     row[1] = "XXX"
-                    
+        
         await ctx.channel.send("Deleted task from todo list!")
         
         
     @commands.command(name='todo', help='view alltasks in todo list!')
-    async def view_tasks(self, ctx, *args):
-        channel_tasks = []
-        
+    async def view_tasks(self, ctx, *argv):
+        embed=discord.Embed(title="TASKS", url="", description="", color=0xFF5733)
         with open('csv_files/tasks.csv', 'r') as f:
             for row in csv.reader(f):
+                print(row)
                 if row[0] == ctx.message.channel.name:
-                    channel_tasks.append("Task:" +row[2]+ "~~~~~" + "SOMETHING ELSE:" +row[3])
+                    # embed.add_field(name=row[1], value=row[2], inline=False)
+                    embed.add_field(name=row[1], value=f'Description: {row[2]}\nPriority: {row[3]}\nAssignment: {row[4]}',inline=True)
 
-                    # channel_tasks.append(row[0:])
-        
-        print(channel_tasks)
-        await ctx.channel.send('\n'.join(channel_tasks))
+        await ctx.channel.send(embed=embed)
+
         
 
 
