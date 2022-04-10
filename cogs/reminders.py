@@ -1,3 +1,4 @@
+from email import message
 import discord
 from discord.ext import commands
 import datetime as DT
@@ -16,23 +17,24 @@ class Reminder(commands.Cog):
     @commands.command(name = 'remind')
     async def remind(self,ctx):
         await ctx.send('okay what reminder do you want?')
-        def check(input1):
-            input1 = input1.content
-            print(input1)
-            self.ex = re.search('to ("(?P<message>.*)")? on (?P<date>\d\d\/\d\d\/\d\d).*at (?P<time>\d\d?:\d\d) ?(?P<apm>pm|am)',input1)
-            self.recievers = re.findall('@(\S*)', input1)
-            print(self.ex)
-            print(self.recievers)
-            return ((self.ex != None) and (self.recievers != None)) or input1 == 'q'
 
-        msg = await self.bot.wait_for('message', check=check)
-        if msg.content=='q':
+        def check(m):
+            return m.author == ctx.author and m.channel == ctx.channel
+
+        msg = await self.bot.wait_for('message', check=check, timeout=None)
+
+        content = msg.content
+
+        if content=='q':
             await ctx.send('woooowww you don\'t want a reminder? enjoy your f')
         else:
-            date_ = DT.datetime.strptime(self.ex.group('date'), '%m/%d/%y')
+            print("OWO")
+            created = msg.message.created_at
+            print(created)
+            date_ = "no"
             time_ = DT.datetime.strptime(self.ex.group('time')+self.ex.group('apm'), '%I:%M%p')
             self.dt = DT.datetime.combine(date_.date(), time_.time())
-            self.message = self.ex.group('message')
+
 
             while self.dt < DT.datetime.now():
                 print('here')
@@ -52,3 +54,6 @@ class Reminder(commands.Cog):
     @commands.command(name='remind_format')
     async def remind_format(self):
         print('!remind @Khaleesi @JonSnow to "you are literally related" on 04/09/22 at 9:00 pm')
+
+def setup(bot: commands.Bot):
+    bot.add_cog(Reminder(bot))
