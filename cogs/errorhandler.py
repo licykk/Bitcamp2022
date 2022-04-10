@@ -20,8 +20,10 @@ class ErrorHandler(commands.Cog):
         else:
             message = "Oh no! Something went wrong while running the command!"
 
-        await ctx.send(message, delete_after=3)
-        await ctx.message.delete(delay=3)
+        # await ctx.send(message, delete_after=3)
+        # await ctx.message.delete(delay=3)
+        await ctx.send(message)
+        await ctx.send(error)
 
 
 def setup(bot: commands.Bot):
