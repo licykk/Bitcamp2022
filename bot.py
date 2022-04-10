@@ -4,16 +4,21 @@ import os
 import discord
 from dotenv import load_dotenv
 from discord.ext import commands
+<<<<<<< HEAD
 from cogs.taskmanager import TaskManager
 from cogs.filemanager import FileManager
 from db_setup import db
+=======
+from cogs.task_cog import TaskManager
+from cogs.filemanager_cog import FileManager
+>>>>>>> 20d1a833f56ca4458b77b064606a530b9c57cdf7
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
 # prefix is !
-bot = commands.Bot(command_prefix='!')
+bot = commands.Bot(command_prefix='*')
 
 @bot.event
 async def on_ready():
