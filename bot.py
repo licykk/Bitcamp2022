@@ -4,8 +4,8 @@ import os
 import discord
 from dotenv import load_dotenv
 from discord.ext import commands
-from cogs.task_cog import TaskManager
-from cogs.filemanager_cog import FileManager
+from cogs.taskmanager import TaskManager
+from cogs.filemanager import FileManager
 from db_setup import db
 
 load_dotenv()
