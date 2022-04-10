@@ -126,7 +126,7 @@ class TaskManager(commands.Cog):
         #await ctx.channel.delete(delay=3)
         
     @commands.command(name='todo', help='view incomplete tasks in todo list!')
-    async def view_tasks(self, ctx):
+    async def view_todo(self, ctx):
         task_list = manager[ctx.message.channel.name].tasks
         embed=discord.Embed(title="TO-DO", url="", description="", color=0xFF5733)
         for t in task_list:
