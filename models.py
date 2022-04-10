@@ -1,23 +1,27 @@
-from typing_extensions import Required
-from . import db
-from . import config
-import base64
-
-
-class Task(db.EmbeddedDocument):
-    name = db.StringField(required=True) #description/name"
-    priority = db.StringField() #make an option
-    assignment = db.StringField() #who is this task assigned to?
-    due_date = db.StringField() #perhaps a date field? 
-    status = db.StringField()
-
-class File(db.EmbeddedDocument):
-    name = db.StringField(required=True)
-    file = db.StringField(required=True)
+class Task:
+    def __init__(self, id, name, priority, assignment, due_date, status):
+        self.id = id
+        self.name = name
+        self.priority = priority
+        self.assignment = assignment
+        self.due_date = due_date
+        self.status = status
     
-class Project(db.Document):
-    # poster = db.ReferenceField(User, required=True)
-    name = db.StringField(required=True)
-    files = db.ListField(db.EmbeddedDocumentField(File))
-    tasks = db.ListField(db.EmbeddedDocumentField(Task))
+class File:
+    def __init__(self, id, name, file):
+        self.id = id
+        self.name = name
+        self.file = file
+    
+class Project:
+    def __init__(self, name):
+        self.name = name
+        self.members = []
+        self.files = []
+        self.tasks = []
+        self.reminders = []
+        self.meeting_notes = []
 
+manager = {
+    "general": Project("general")
+}
