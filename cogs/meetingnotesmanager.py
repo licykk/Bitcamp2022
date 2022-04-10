@@ -4,7 +4,6 @@ import discord
 
 from datetime import datetime
 import os
-import re
 
 from models import *
 
@@ -24,14 +23,17 @@ class MeetingNotesManager(commands.Cog):
             year = '{:02d}'.format(now.year)
             month = '{:02d}'.format(now.month)
             day = '{:02d}'.format(now.day)
-            hour = '{:02d}'.format(now.hour)
-            minute = '{:02d}'.format(now.minute)
-            overall_date = '{}-{}-{}-{}-{}'.format(year, month, day, hour, minute)
+            overall_date = '{}-{}-{}'.format(year, month, day)
             
             name = str(after.channel.name) +"-"+ overall_date +"-meeting"
-            cat = discord.utils.get(member.guild.channels, name=after.channel.name, type=discord.ChannelType.text).category
+            project_channel = discord.utils.get(member.guild.channels, name=after.channel.name, type=discord.ChannelType.text) 
+            cat = project_channel.category
             c = await cat.create_text_channel(name)
-            await c.send(f"Created channel {name}")
+            
+            embed_desc=f"Created channel {name}"
+            embed=discord.Embed(title="NOTICE", description=embed_desc, color=0xFF5733)
+            await project_channel.send(embed=embed)
+            
             vc = after.channel
             self.die.start(c, vc, member.guild)
 
@@ -47,23 +49,23 @@ class MeetingNotesManager(commands.Cog):
             project_channel = discord.utils.get(guild.channels, name=project_name, type=discord.ChannelType.text) 
             
             # Initialize notes file add file name to notes file if it does not exist
-            #if txtfile not in manager[project_name].notes:
-            #    manager[project_name].notes.append(txtfile)
+            if txtfilename not in manager[project_name].meeting_notes:
+                manager[project_name].meeting_notes.append(txtfilename)
                 
             make_dir('notes')
             make_dir('notes/{}'.format(project_name))
-            with open(f'notes/{project_name}/{txtfilename}', 'w+') as meeting_notes:
-                print("finished open")
+            with open(f'notes/{project_name}/{txtfilename}', 'a') as meeting_notes:
+                #print("finished open") #debug
         
                 # Write messages to notes file
-                async for message in curr_channel.history(limit=10, oldest_first=True):
+                async for message in curr_channel.history(limit=None, oldest_first=True):
                     # Write messages to files
                     if message.content is not None:
                         meeting_notes.write(message.content)
                         meeting_notes.write('\n')
-                        await project_channel.send(message.content)
+                        #await project_channel.send(message.content) #debug
 
-            embed_desc=f'Notes for {curr_channel} saved at {txtfilename}'
+            embed_desc=f'Notes for {curr_channel}'
             embed=discord.Embed(title="NOTICE", description=embed_desc, color=0xFF5733)
             await project_channel.send(embed=embed)
             
@@ -81,7 +83,7 @@ class MeetingNotesManager(commands.Cog):
             await ctx.channel.send('No meeting notes found!')
             return
         
-        for filename in manager[project].notes:
+        for filename in manager[project].meeting_notes:
             await ctx.channel.send(filename)
         
 def setup(bot):
