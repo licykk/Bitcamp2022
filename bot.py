@@ -6,14 +6,15 @@ from dotenv import load_dotenv
 from discord.ext import commands
 from task_cog import TaskManager
 from filemanager_cog import FileManager
-from db_setup import db
+# import meetingnotes_cog import MeetingNotes
+# from db_setup import db
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
 # prefix is !
-bot = commands.Bot(command_prefix='!')
+bot = commands.Bot(command_prefix='*')
 
 @bot.event
 async def on_ready():
@@ -30,6 +31,7 @@ async def send_flushed(ctx):
 
 bot.add_cog(TaskManager(bot))
 bot.add_cog(FileManager(bot))
+# bot.add_cog(MeetingNotes(bot))
 
 
 
