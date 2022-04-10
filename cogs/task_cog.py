@@ -5,13 +5,12 @@ from models import manager, Task
 class TaskManager(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.num_files = 0
     
-    #add, delete, view
     @commands.command(name='add', help='add a task to the todo list!')
     async def add_task(self, ctx, *argv):
         params = list(argv)
-        new_task = Task(len(manager[ctx.message.channel.name].tasks) + 1, #id
+        task_list = manager[ctx.message.channel.name].tasks
+        new_task = Task(int(task_list[-1].id) + 1 if len(task_list) != 0 else 1, #id
                         params[0], #name
                         params[1], #priority
                         params[2] if len(params) >=3 else None, #assignment
@@ -19,9 +18,7 @@ class TaskManager(commands.Cog):
                         params[4] if len(params) >=5 else None) #status
                 
                 
-        manager[ctx.message.channel.name].tasks.append(new_task)
-        self.num_files += 1
-        print("num of tasks is " +str(self.num_files))
+        task_list.append(new_task)
         await ctx.channel.send("Added task to todo list!")
     
     
@@ -30,9 +27,11 @@ class TaskManager(commands.Cog):
         task_list = manager[ctx.message.channel.name].tasks
         
         for i in range(0, len(task_list)):
-            if task_list[i].id == taskid_to_be_deleted:
+            print(task_list[i].id)
+            print(taskid_to_be_deleted)
+            if int(task_list[i].id) == int(taskid_to_be_deleted):
                 print("YES")
-                task_list.remove(i)
+                task_list.pop(i)
                 
         await ctx.channel.send("Deleted task from todo list!")
         
@@ -42,7 +41,7 @@ class TaskManager(commands.Cog):
         task_list = manager[ctx.message.channel.name].tasks
         embed=discord.Embed(title="TASKS", url="", description="", color=0xFF5733)
         for t in task_list:
-            embed.add_field(name=t.name, value=f'Priority: {t.priority}\nStatus: {t.status}\nAssignment: {t.assignment}\nDue Date: {t.due_date}',inline=True)
+            embed.add_field(name=t.id, value=f'Description: {t.name}\nPriority: {t.priority}\nStatus: {t.status}\nAssignment: {t.assignment}\nDue Date: {t.due_date}',inline=True)
 
         await ctx.channel.send(embed=embed)
 

@@ -4,8 +4,6 @@ import os
 import discord
 from dotenv import load_dotenv
 from discord.ext import commands
-from cogs.task_cog import TaskManager
-from cogs.filemanager_cog import FileManager
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
