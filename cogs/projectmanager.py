@@ -6,7 +6,7 @@ class ProjectManager(commands.Cog):
 
     @commands.command(name='p', help='creates a new project')
     async def make_project(self, ctx, proj_name):
-        pass
+        print("OWOO")
 
 
 def setup(bot):

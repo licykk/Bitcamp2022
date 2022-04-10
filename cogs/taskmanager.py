@@ -27,11 +27,9 @@ class TaskManager(commands.Cog):
         task_list = manager[ctx.message.channel.name].tasks
         
         for i in range(0, len(task_list)):
-            print(task_list[i].id)
-            print(taskid_to_be_deleted)
             if int(task_list[i].id) == int(taskid_to_be_deleted):
-                print("YES")
                 task_list.pop(i)
+                break
                 
         await ctx.channel.send("Deleted task from todo list!")
         

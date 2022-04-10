@@ -1,4 +1,3 @@
-from email import message
 import discord
 from discord.ext import commands
 import datetime as DT
@@ -17,24 +16,17 @@ class Reminder(commands.Cog):
     @commands.command(name = 'remind')
     async def remind(self,ctx):
         await ctx.send('okay what reminder do you want?')
-
         def check(m):
             return m.author == ctx.author and m.channel == ctx.channel
 
-        msg = await self.bot.wait_for('message', check=check, timeout=None)
-
-        content = msg.content
-
-        if content=='q':
+        msg = await self.bot.wait_for('message', check=check)
+        if msg.content=='q':
             await ctx.send('woooowww you don\'t want a reminder? enjoy your f')
         else:
-            print("OWO")
-            created = msg.message.created_at
-            print(created)
-            date_ = "no"
+            date_ = DT.datetime.strptime(self.ex.group('date'), '%m/%d/%y')
             time_ = DT.datetime.strptime(self.ex.group('time')+self.ex.group('apm'), '%I:%M%p')
             self.dt = DT.datetime.combine(date_.date(), time_.time())
-
+            self.message = self.ex.group('message')
 
             while self.dt < DT.datetime.now():
                 print('here')
@@ -55,5 +47,5 @@ class Reminder(commands.Cog):
     async def remind_format(self):
         print('!remind @Khaleesi @JonSnow to "you are literally related" on 04/09/22 at 9:00 pm')
 
-def setup(bot: commands.Bot):
-    bot.add_cog(Reminder(bot))
+def setup(bot):
+    return bot.add_cog(Reminder(bot))
