@@ -9,7 +9,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
 # prefix is !
-bot = commands.Bot(command_prefix='!')
+bot = commands.Bot(command_prefix='>')
 
 @bot.event
 async def on_ready():

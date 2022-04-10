@@ -60,7 +60,7 @@ class MeetingNotesManager(commands.Cog):
                 
             make_dir('notes')
             make_dir('notes/{}'.format(project_name))
-            with open(f'notes/{project_name}/{txtfilename}', 'wa') as meeting_notes:
+            with open(f'notes/{project_name}/{txtfilename}', 'w+') as meeting_notes:
                 print("finished open")
         
                 # Write messages to notes file
