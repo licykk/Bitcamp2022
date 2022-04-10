@@ -16,8 +16,14 @@ class Reminder(commands.Cog):
     @commands.command(name = 'remind')
     async def remind(self,ctx):
         await ctx.send('okay what reminder do you want?')
-        def check(m):
-            return m.author == ctx.author and m.channel == ctx.channel
+        def check(input1):
+            input1 = input1.content
+            print(input1)
+            self.ex = re.search('to ("(?P<message>.*)")? on (?P<date>\d\d\/\d\d\/\d\d).*at (?P<time>\d\d?:\d\d) ?(?P<apm>pm|am)',input1)
+            self.recievers = re.findall('@(\S*)', input1)
+            print(self.ex)
+            print(self.recievers)
+            return ((self.ex != None) and (self.recievers != None)) or input1 == 'q'
 
         msg = await self.bot.wait_for('message', check=check)
         if msg.content=='q':

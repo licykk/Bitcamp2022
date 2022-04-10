@@ -19,7 +19,8 @@ class TaskManager(commands.Cog):
                 
                 
         task_list.append(new_task)
-        await ctx.channel.send("Added task to todo list!")
+        await ctx.channel.send("Added task to todo list!", delete_after=3)
+        await ctx.channel.delete(delay=3)
     
     
     @commands.command(name='delete', help='delete a task from the todo list!')
@@ -31,7 +32,8 @@ class TaskManager(commands.Cog):
                 task_list.pop(i)
                 break
                 
-        await ctx.channel.send("Deleted task from todo list!")
+        await ctx.channel.send("Deleted task from todo list!", delete_after=3)
+        await ctx.channel.delete(delay=3)
         
         
     @commands.command(name='todo', help='view all tasks in todo list!')
