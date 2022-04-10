@@ -19,7 +19,6 @@ class ErrorHandler(commands.Cog):
             message = "Something about your input was wrong, please check your input and try again!"
         else:
             message = "Oh no! Something went wrong while running the command!"
-            message = ""
 
         # await ctx.send(message, delete_after=3)
         # await ctx.message.delete(delay=3)

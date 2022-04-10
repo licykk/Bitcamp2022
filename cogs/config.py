@@ -79,8 +79,7 @@ class Config(commands.Cog):
                             value=desired_trace,
                             inline=False
                         )
-                await ctx.send(embed=embed, delete_after=2)
-                await ctx.message.delete(delay=2)
+                await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Config(bot))
