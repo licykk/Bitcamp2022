@@ -1,30 +1,34 @@
 from discord.ext import commands
 import discord
-from mongoengine import MongoEngine
-from .models import File
+import csv
 
 class FileManager(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.num_files = 0
     
     @commands.command(name='store', help='stores files')
-    async def store_file(self, ctx, filename, file):
-        new_file = File(
-            name=filename,
-            file=file,
-        )
-        new_file.save()
+    async def store_file(self, ctx, *argv):
+        self.num_files += 1
+        with open('csv_files/files.csv', 'a', newline='') as f:
+            writer = csv.writer(f) 
+            writer.writerow([ctx.message.channel.name, self.num_files] + list(argv))   
+        
+        await ctx.channel.send("Stored file!")
+        
+        
+    @commands.command(name='view', help='view all stored files!')
+    async def view_file(self, ctx):
+        channel_files = []
+        
+        with open('csv_files/files.csv', 'r') as f:
+            for row in csv.reader(f):
+                print(row)
+                if row[0] == ctx.message.channel.name:
+                    channel_files.append("Name:" +row[2]+ "~~~~~" + "URL:" +row[3])
 
-        db.files.insert_one(file) #store response in db but how to specify which project?
-        await ctx.channel.send("Stored " +file) #look at channel?
-        
-        
-        
-    @commands.command(self, name='view', help='view all stored files!')
-    async def view_file(ctx):
-        await ctx.channel.send(db.files.find().pretty())
-        # mongo.db.files.insert_one(file) #store response in db
-        # await ctx.channel.send("Stored " +file)
+        print(channel_files)
+        await ctx.channel.send('\n'.join(channel_files))
 
 
 

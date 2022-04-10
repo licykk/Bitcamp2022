@@ -1,23 +1,8 @@
 from typing_extensions import Required
-# from flask_login import UserMixin
-from datetime import datetime
+from . import db
+from . import config
 import base64
-from db_setup import db
 
-
-# @login_manager.user_loader
-# def load_user(user_id):
-#     return User.objects(username=user_id).first()
-
-# class User(db.Document, UserMixin):
-#     username = db.StringField(required=True, unique=True)
-#     email = db.EmailField(required=True, unique=True)
-#     password = db.StringField(required=True)
-#     profile_pic = db.ImageField()
-
-#     # Returns unique string identifying our object
-#     def get_id(self):
-#         return self.username
 
 class Task(db.EmbeddedDocument):
     name = db.StringField(required=True) #description/name"
