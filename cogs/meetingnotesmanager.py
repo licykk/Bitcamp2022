@@ -65,7 +65,7 @@ class MeetingNotesManager(commands.Cog):
                         meeting_notes.write('\n')
                         #await project_channel.send(message.content) #debug
 
-            embed_desc=f'Notes for {curr_channel}'
+            embed_desc=f'Saved notes for {curr_channel}'
             embed=discord.Embed(title="NOTICE", description=embed_desc, color=0xFF5733)
             await project_channel.send(embed=embed)
             
@@ -84,7 +84,8 @@ class MeetingNotesManager(commands.Cog):
             return
         
         for filename in manager[project].meeting_notes:
-            await ctx.channel.send(filename)
+            filepath = f'notes/{project}/{filename}'
+            await ctx.channel.send(file=discord.File(filepath))
         
 def setup(bot):
     return bot.add_cog(MeetingNotesManager(bot))
