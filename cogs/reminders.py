@@ -52,3 +52,6 @@ class Reminder(commands.Cog):
     @commands.command(name='remind_format')
     async def remind_format(self):
         print('!remind @Khaleesi @JonSnow to "you are literally related" on 04/09/22 at 9:00 pm')
+
+def setup(bot):
+    return bot.add_cog(Reminder(bot))
