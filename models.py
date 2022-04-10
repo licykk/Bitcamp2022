@@ -21,6 +21,7 @@ class Project:
         self.tasks = []
         self.reminders = []
         self.meeting_notes = []
+        self.calendars = []
 
 manager = {
     "general": Project("general")
